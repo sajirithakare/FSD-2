@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Web Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .container {
+            text-align: center;
+            margin: 20px;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #555;
+        }
+
+        #parentElement {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        form {
+            margin: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .file-label:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Web Page Example</h1>
+    
+    <div class="container">
+        <button id="changeTextButton">Change Text</button>
+        <button id="changeImageSourceButton">Change Image Source</button>
+        <button id="addTextNodeButton">Add Text Node</button>
+        <button id="deleteNodeButton">Delete Node</button>
+    </div>
+
+    <div class="container">
+        <p id="textElement">This is a paragraph.</p>
+    </div>
+    
+    <div class="container">
+        <img id="imageElement" src="original.jpg" alt="Original Image">
+    </div>
+    
+    <div class="container">
+        <div id="parentElement"></div>
+    </div>
+    
+    <div class="container">
+        <form>
+            <input type="text" id="inputField" placeholder="Enter text">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <input type="file" id="fileInput" class="file-input">
+        <label for="fileInput" class="file-label">Select Image</label>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const textElement = document.getElementById("textElement");
+            const imageElement = document.getElementById("imageElement");
+            const parentElement = document.getElementById("parentElement");
+            const changeTextButton = document.getElementById("changeTextButton");
+            const changeImageSourceButton = document.getElementById("changeImageSourceButton");
+            const addTextNodeButton = document.getElementById("addTextNodeButton");
+            const deleteNodeButton = document.getElementById("deleteNodeButton");
+            const fileInput = document.getElementById("fileInput");
+
+            changeTextButton.addEventListener("click", () => {
+                textElement.innerHTML = "Text has been changed!";
+            });
+
+            changeImageSourceButton.addEventListener("click", () => {
+                imageElement.src = "new.jpg";
+                textElement.style.color = "blue";
+                textElement.style.position = "relative";
+            });
+
+            addTextNodeButton.addEventListener("click", () => {
+                const textNode = document.createTextNode("This is a new text node.");
+                parentElement.appendChild(textNode);
+            });
+
+            deleteNodeButton.addEventListener("click", () => {
+                if (parentElement.firstChild) {
+                    parentElement.removeChild(parentElement.firstChild);
+                }
+            });
+
+            fileInput.addEventListener("change", function() {
+                const selectedFile = this.files[0];
+                if (selectedFile) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imageElement.src = e.target.result;
+                    };
+                    reader.readAsDataURL(selectedFile);
+                }
+            });
+
+            $(document).ready(function() {
+                $("#changeTextButton").text("Change Text (jQuery)");
+                $("body").css("background-image", "url(background.jpg)");
+                $("form").submit(function(event) {
+                    event.preventDefault();
+                    const inputValue = $("#inputField").val();
+                    alert("Form input value: " + inputValue);
+                });
+                $("#textElement").attr("data-custom-attribute", "Custom Attribute Value");
+            });
+        });
+    </script>
+</body>
+</html>
